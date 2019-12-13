@@ -1,5 +1,8 @@
 # php-fpm-laravel
 Dockerfile for running Laravel
+``` 
+docker pull chrsc/php-fpm-laravel:7.3 
+```
 
 ## docker compose
 Using this docker compose file, you need to have the following directory structure and files:
