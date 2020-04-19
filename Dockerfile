@@ -1,8 +1,8 @@
 FROM php:7.3-fpm
 
-MAINTAINER chris.c@soniccode.com
+MAINTAINER chrsc@mac.com
 
-# This dockerfile is copyied from cyberduck's phpfpm:7.3 with npm and yarn added
+# This dockerfile is copyied from cyberduck's phpfpm:7.3 with npm and ~yarn~ added
 
 ENV XDEBUG="false"
 
@@ -84,6 +84,11 @@ COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 # Install the php memcached extension
 RUN pecl install memcached && docker-php-ext-enable memcached
 
+# Install and enabled Redis
+RUN pecl install -o -f redis \
+&&  rm -rf /tmp/pear \
+&&  docker-php-ext-enable redis
+
 #####################################
 # Composer:
 #####################################
@@ -94,12 +99,13 @@ RUN curl -s http://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
 
 #####################################
-# NPM & Yarn:
+# NPM 
+# Temporariy removing yarn
 #####################################
 RUN curl -s https://www.npmjs.com/install.sh | sh
 RUN apt-get update && apt-get install -y gnupg2
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN apt-get update && apt-get install -y yarn
+# RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+# RUN apt-get update && apt-get install -y yarn
 
 # Source the bash
 RUN . ~/.bashrc
