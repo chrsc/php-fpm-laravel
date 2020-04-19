@@ -85,7 +85,12 @@ COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 RUN pecl install memcached && docker-php-ext-enable memcached
 
 # Install and enabled Redis
-RUN pecl install -o -f redis &&  rm -rf /tmp/pear &&  docker-php-ext-enable redis
+RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/5.2.1.tar.gz \
+    && tar xfz /tmp/redis.tar.gz \
+    && rm -r /tmp/redis.tar.gz \
+    && mkdir -p /usr/src/php/ext \
+    && mv phpredis-5.2.1 /usr/src/php/ext/redis \
+    && docker-php-ext-install redis
 
 #####################################
 # Composer:
