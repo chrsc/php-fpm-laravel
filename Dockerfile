@@ -4,7 +4,7 @@ MAINTAINER chrsc@mac.com
 
 # This dockerfile is copyied from cyberduck's phpfpm:7.3 with npm and ~yarn~ added
 
-ENV XDEBUG="false"
+ENV XDEBUG "false"
 
 RUN apt-get update && \
     apt-get install -y --force-yes --no-install-recommends \
@@ -85,9 +85,7 @@ COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 RUN pecl install memcached && docker-php-ext-enable memcached
 
 # Install and enabled Redis
-RUN pecl install -o -f redis \
-&&  rm -rf /tmp/pear \
-&&  docker-php-ext-enable redis
+RUN pecl install -o -f redis &&  rm -rf /tmp/pear &&  docker-php-ext-enable redis
 
 #####################################
 # Composer:
