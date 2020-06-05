@@ -14,7 +14,7 @@ services:
         networks:
             - example-network
     example-phpfpm:
-        image: chrsc/php-fpm-laravel:7.3
+        image: chrsc/php-fpm-laravel:latest
         container_name: "example-phpfpm"
         depends_on:
             - example-mysql
