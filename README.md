@@ -1,7 +1,7 @@
 # php-fpm-laravel
 Dockerfile for running Laravel
 ``` 
-docker pull chrsc/php-fpm-laravel:latest
+docker pull chrsc/php-fpm-laravel:8.0.0RC4
 ```
 
 ## docker compose
