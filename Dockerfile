@@ -1,4 +1,4 @@
-FROM php:7.3-fpm
+FROM php:8.0.0RC4-fpm
 
 MAINTAINER chrsc@mac.com
 
@@ -31,8 +31,8 @@ RUN docker-php-ext-install soap
 RUN docker-php-ext-install exif
 
 # Install the PHP mcrypt extention (from PECL, mcrypt has been removed from PHP 7.2)
-RUN pecl install mcrypt-1.0.2
-RUN docker-php-ext-enable mcrypt
+#RUN pecl install mcrypt-1.0.2
+#RUN docker-php-ext-enable mcrypt
 
 # Install the PHP pcntl extention
 RUN docker-php-ext-install pcntl
@@ -66,8 +66,8 @@ RUN pecl install imagick && \
 # Install the PHP gd library
 RUN docker-php-ext-install gd && \
     docker-php-ext-configure gd \
-        --with-jpeg-dir=/usr/lib \
-        --with-freetype-dir=/usr/include/freetype2 && \
+        --with-jpeg=/usr/lib \
+        --with-freetype=/usr/include/freetype2 && \
     docker-php-ext-install gd
 
 #####################################
@@ -87,11 +87,11 @@ COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 RUN pecl install memcached && docker-php-ext-enable memcached
 
 # Install and enabled Redis
-RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/5.2.1.tar.gz \
+RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/5.3.2.tar.gz \
     && tar xfz /tmp/redis.tar.gz \
     && rm -r /tmp/redis.tar.gz \
     && mkdir -p /usr/src/php/ext \
-    && mv phpredis-5.2.1 /usr/src/php/ext/redis \
+    && mv phpredis-5.3.2 /usr/src/php/ext/redis \
     && docker-php-ext-install redis
 
 #####################################
@@ -109,8 +109,6 @@ RUN curl -s http://getcomposer.org/installer | php && \
 #####################################
 RUN curl -s https://www.npmjs.com/install.sh | sh
 RUN apt-get update && apt-get install -y gnupg2
-# RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-# RUN apt-get update && apt-get install -y yarn
 
 # Source the bash
 RUN . ~/.bashrc
